@@ -308,6 +308,7 @@ class CGridView extends CBaseListView
 				$this->columns=$this->dataProvider->model->attributeNames();
 			else if($this->dataProvider instanceof IDataProvider)
 			{
+				/** TODO fix */
 				// use the keys of the first row of data as the default columns
 				$data=$this->dataProvider->getData();
 				if(isset($data[0]) && is_array($data[0]))
@@ -502,8 +503,12 @@ class CGridView extends CBaseListView
 
 		if($n>0)
 		{
-			for($row=0;$row<$n;++$row)
-				$this->renderTableRow($row);
+			$row=0;
+			foreach ($data as $index => $item)
+				$this->renderTableRow($row++, $index);
+
+//			for($row=0;$row<$n;++$row)
+//				$this->renderTableRow($row);
 		}
 		else
 		{
@@ -517,20 +522,23 @@ class CGridView extends CBaseListView
 	/**
 	 * Renders a table body row.
 	 * @param integer $row the row number (zero-based).
+	 * @param integer $index .....
 	 */
-	public function renderTableRow($row)
+	public function renderTableRow($row, $index=null)
 	{
+		if($index===null)
+			$index=$row;
 		if($this->rowCssClassExpression!==null)
 		{
-			$data=$this->dataProvider->data[$row];
-			echo '<tr class="'.$this->evaluateExpression($this->rowCssClassExpression,array('row'=>$row,'data'=>$data)).'">';
+			$data=$this->dataProvider->data[$index];
+			echo '<tr class="'.$this->evaluateExpression($this->rowCssClassExpression,array('row'=>$row,'data'=>$data,'index'=>$index)).'">';
 		}
 		else if(is_array($this->rowCssClass) && ($n=count($this->rowCssClass))>0)
 			echo '<tr class="'.$this->rowCssClass[$row%$n].'">';
 		else
 			echo '<tr>';
 		foreach($this->columns as $column)
-			$column->renderDataCell($row);
+			$column->renderDataCell($row, $index);
 		echo "</tr>\n";
 	}
 
