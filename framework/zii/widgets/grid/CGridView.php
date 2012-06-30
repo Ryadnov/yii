@@ -503,12 +503,13 @@ class CGridView extends CBaseListView
 
 		if($n>0)
 		{
-			$row=0;
-			foreach ($data as $index => $item)
-				$this->renderTableRow($row++, $index);
+			$keys = array_keys($data);
+//			$row=0;
+//			foreach ($data as $index => $item)
+//				$this->renderTableRow($row++, $index);
 
-//			for($row=0;$row<$n;++$row)
-//				$this->renderTableRow($row);
+			for($row=0;$row<$n;++$row)
+				$this->renderTableRow($row, $keys[$row]);
 		}
 		else
 		{
@@ -526,12 +527,12 @@ class CGridView extends CBaseListView
 	 */
 	public function renderTableRow($row, $index=null)
 	{
-		if($index===null)
+		if($index===null) //backward compatibility
 			$index=$row;
 		if($this->rowCssClassExpression!==null)
 		{
 			$data=$this->dataProvider->data[$index];
-			echo '<tr class="'.$this->evaluateExpression($this->rowCssClassExpression,array('row'=>$row,'data'=>$data,'index'=>$index)).'">';
+			echo '<tr class="'.$this->evaluateExpression($this->rowCssClassExpression,array('row'=>$row,'data'=>$data)).'">';
 		}
 		else if(is_array($this->rowCssClass) && ($n=count($this->rowCssClass))>0)
 			echo '<tr class="'.$this->rowCssClass[$row%$n].'">';

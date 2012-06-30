@@ -129,13 +129,13 @@ abstract class CGridColumn extends CComponent
 	 */
 	public function renderDataCell($row, $index=null)
 	{
-		if($index===null)
+		if($index===null) //backward compatibility
 			$index=$row;
 		$data=$this->grid->dataProvider->data[$index];
 		$options=$this->htmlOptions;
 		if($this->cssClassExpression!==null)
 		{
-			$class=$this->evaluateExpression($this->cssClassExpression,array('row'=>$row,'data'=>$data,'index'=>$index));
+			$class=$this->evaluateExpression($this->cssClassExpression,array('row'=>$row,'data'=>$data));
 			if(isset($options['class']))
 				$options['class'].=' '.$class;
 			else
