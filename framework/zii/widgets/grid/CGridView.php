@@ -503,13 +503,13 @@ class CGridView extends CBaseListView
 
 		if($n>0)
 		{
-			$keys = array_keys($data);
+			$keys=array_keys($data);
 //			$row=0;
 //			foreach ($data as $index => $item)
 //				$this->renderTableRow($row++, $index);
 
 			for($row=0;$row<$n;++$row)
-				$this->renderTableRow($row, $keys[$row]);
+				$this->renderTableRow($row,$keys[$row]);
 		}
 		else
 		{
