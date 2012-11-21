@@ -85,7 +85,7 @@ class CDbMessageSource extends CMessageSource
 
 		$messages=$this->loadMessagesFromDb($category,$language);
 
-		if(isset($cache))
+		if($this->cachingDuration>0 && isset($cache))
 			$cache->set($key,serialize($messages),$this->cachingDuration);
 
 		return $messages;
